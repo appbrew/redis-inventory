@@ -5,10 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/spinute/redis-inventory/src/adapter"
+	"github.com/appbrew/redis-inventory/src/adapter"
 
+	"github.com/appbrew/redis-inventory/src/trie"
 	"github.com/rs/zerolog"
-	"github.com/spinute/redis-inventory/src/trie"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 )

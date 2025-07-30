@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/spinute/redis-inventory/cmd/app"
+	"github.com/appbrew/redis-inventory/cmd/app"
 )
 
 func main() {

@@ -5,8 +5,8 @@ import (
 	"io"
 	"strings"
 
+	"github.com/appbrew/redis-inventory/src/trie"
 	"github.com/hetiansu5/urlquery"
-	"github.com/spinute/redis-inventory/src/trie"
 )
 
 // NewJSONRendererParams creates JSONRendererParams

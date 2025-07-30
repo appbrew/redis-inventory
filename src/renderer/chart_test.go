@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/spinute/redis-inventory/src/trie"
+	"github.com/appbrew/redis-inventory/src/trie"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 )

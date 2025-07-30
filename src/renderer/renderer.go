@@ -4,9 +4,9 @@ import (
 	"errors"
 	"os"
 
+	"github.com/appbrew/redis-inventory/src/server"
+	"github.com/appbrew/redis-inventory/src/trie"
 	"github.com/rs/zerolog"
-	"github.com/spinute/redis-inventory/src/server"
-	"github.com/spinute/redis-inventory/src/trie"
 )
 
 // Renderer abstraction for rendering trie to a given output
