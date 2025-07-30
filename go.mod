@@ -1,4 +1,4 @@
-module github.com/spinute/redis-inventory
+module github.com/appbrew/redis-inventory
 
 go 1.16
 

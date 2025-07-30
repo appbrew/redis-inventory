@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"code.cloudfoundry.org/bytefmt"
+	"github.com/appbrew/redis-inventory/src/server"
+	"github.com/appbrew/redis-inventory/src/trie"
 	"github.com/hetiansu5/urlquery"
-	"github.com/spinute/redis-inventory/src/server"
-	"github.com/spinute/redis-inventory/src/trie"
 )
 
 // NewChartRendererParams creates ChartRendererParams

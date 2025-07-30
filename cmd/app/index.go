@@ -4,13 +4,13 @@ import (
 	"context"
 	"os"
 
+	"github.com/appbrew/redis-inventory/src/adapter"
+	"github.com/appbrew/redis-inventory/src/logger"
+	"github.com/appbrew/redis-inventory/src/renderer"
+	"github.com/appbrew/redis-inventory/src/scanner"
+	"github.com/appbrew/redis-inventory/src/trie"
 	"github.com/mediocregopher/radix/v4"
 	"github.com/spf13/cobra"
-	"github.com/spinute/redis-inventory/src/adapter"
-	"github.com/spinute/redis-inventory/src/logger"
-	"github.com/spinute/redis-inventory/src/renderer"
-	"github.com/spinute/redis-inventory/src/scanner"
-	"github.com/spinute/redis-inventory/src/trie"
 )
 
 var indexCmd = &cobra.Command{
