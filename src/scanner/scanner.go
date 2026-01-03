@@ -4,6 +4,7 @@ import (
 	"context"
 	"runtime"
 	"sync"
+	"time"
 
 	"github.com/rs/zerolog"
 	"github.com/spinute/redis-inventory/src/adapter"
@@ -15,6 +16,7 @@ type RedisServiceInterface interface {
 	ScanKeys(ctx context.Context, options adapter.ScanOptions) <-chan string
 	GetKeysCount(ctx context.Context) (int64, error)
 	GetMemoryUsage(ctx context.Context, key string) (int64, error)
+	Reconnect() error
 }
 
 // RedisScanner scans redis keys and puts them in a trie
@@ -53,10 +55,39 @@ func (s *RedisScanner) Scan(options adapter.ScanOptions, result *trie.Trie) {
 
 			for key := range keys {
 				s.scanProgress.Increment()
-				res, err := s.redisService.GetMemoryUsage(context.Background(), key)
+
+				var res int64
+				var err error
+				maxRetries := 3
+
+				for attempt := 0; attempt < maxRetries; attempt++ {
+					res, err = s.redisService.GetMemoryUsage(context.Background(), key)
+					if err == nil {
+						break
+					}
+
+					// Check if it's a connection error
+					if adapter.IsConnectionError(err) {
+						s.logger.Warn().Err(err).Msgf("Connection error on key %s (attempt %d/%d), reconnecting...", key, attempt+1, maxRetries)
+
+						// Wait before reconnecting
+						time.Sleep(time.Second * time.Duration(attempt+1))
+
+						// Attempt to reconnect
+						if reconnErr := s.redisService.Reconnect(); reconnErr != nil {
+							s.logger.Error().Err(reconnErr).Msg("Failed to reconnect")
+							continue
+						}
+						s.logger.Info().Msg("Successfully reconnected to Redis")
+					} else {
+						// Non-connection error, don't retry
+						break
+					}
+				}
+
 				if err != nil {
-					s.logger.Error().Err(err).Msgf("Error dumping key %s", key)
-					return
+					s.logger.Warn().Err(err).Msgf("Error dumping key %s after %d attempts, skipping", key, maxRetries)
+					continue
 				}
 
 				result.Add(
