@@ -28,7 +28,7 @@ var scanCmd = &cobra.Command{
 		}
 
 		redisScanner := scanner.NewScanner(
-			adapter.NewRedisService(clientSource),
+			adapter.NewRedisService(clientSource, args[0]),
 			adapter.NewPrettyProgressWriter(os.Stdout),
 			consoleLogger,
 		)
